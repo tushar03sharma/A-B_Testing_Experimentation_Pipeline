@@ -9,11 +9,13 @@ A portfolio-ready data engineering project that simulates an experimentation pla
 - Python orchestration for data generation, warehouse builds, and reporting
 - Data quality checks for pipeline reliability
 - Experiment analysis with uplift and p-value reporting
+- Interactive dashboard for experiment monitoring and segment analysis
 
 ## Project Layout
 
 ```text
 .
+├── dashboard/
 ├── sql/
 ├── src/ab_testing_pipeline/
 ├── tests/
@@ -37,9 +39,24 @@ python -m ab_testing_pipeline.cli run-all
 
 Outputs are created in `data/raw`, `data/warehouse`, and `data/reports`.
 
+## Dashboard
+
+```bash
+pip install -e '.[dashboard]'
+python -m ab_testing_pipeline.cli dashboard
+```
+
+The dashboard reads directly from DuckDB and includes:
+
+- KPI cards for winner, uplift, p-value, and revenue per user
+- Daily trend charts for conversion rate and traffic
+- Country and device filters for slice-level analysis
+- Segment breakdown tables for variant performance
+
 ## Resume Highlights
 
 - Built an end-to-end experimentation pipeline using Python, SQL, and DuckDB
 - Modeled raw events into analytics-ready tables for A/B test measurement
 - Automated conversion, uplift, and significance reporting for product experiments
 - Added data quality checks to catch nulls, duplicate exposures, and missing variants
+- Developed an interactive dashboard to monitor experiment lift by day, country, and device

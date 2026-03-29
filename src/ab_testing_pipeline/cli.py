@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import subprocess
+
 import typer
 
 from .analysis import export_reports
-from .config import Settings, ensure_directories
+from .config import ROOT_DIR, Settings, ensure_directories
 from .data_generation import generate_data
 from .pipeline import build_warehouse
 from .quality import run_quality_checks
@@ -45,6 +47,23 @@ def quality() -> None:
             typer.echo(f"FAILED: {failure}")
         raise typer.Exit(code=1)
     typer.echo("All data quality checks passed.")
+
+
+@app.command()
+def dashboard(host: str = "127.0.0.1", port: int = 8501) -> None:
+    app_path = ROOT_DIR / "dashboard" / "app.py"
+    subprocess.run(
+        [
+            "streamlit",
+            "run",
+            str(app_path),
+            "--server.address",
+            host,
+            "--server.port",
+            str(port),
+        ],
+        check=True,
+    )
 
 
 @app.command("run-all")
